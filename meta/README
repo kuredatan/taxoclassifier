@@ -1,0 +1,4 @@
+- Info.csv: metadata for the samples
+- GGdb2015.tree: the whole taxonomic tree from GreenGenes
+
+/!\ Some nodes are in the tree but not in the data matrix!
