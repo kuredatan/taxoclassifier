@@ -17,7 +17,7 @@ In the terminal:
 
 -----------------------------------------------------------------------------------------------------------------
 
-This program uses a Naive Bayesian Classifier to infer correlations between metadata and the phylogenetic trees in samples. The classifier classifies a sample/patient in a classe corresponding to a certain list of values for a fixed set of metadata.
+This program uses a Naive Bayes Classifier to infer correlations between metadata and the phylogenetic trees in samples. The classifier classifies a sample/patient in a classe corresponding to a certain list of values for a fixed set of metadata.
 
 A sample/patient is defined with a features vector, containing the numeric values (boolean values are 0 and 1) corresponding to every metadatum collected, and a phylogenetic vector, containing for each node n of the phylogenetic tree a list of read numbers r such as n matches the read r. 
 
@@ -45,6 +45,13 @@ The best classification is the classification such as, for all class C, J(c) is 
 Details about the files:
 **** actions.py ****
 
+**** classifier.py ****
+
+**** featuresVector.py ****
+
+**** /files
+Stores written files using writeOnFiles functions.
+
 **** main.py ****
 Interface with the user.
 
@@ -69,11 +76,14 @@ Draws the graph of a set of values yArray depending on set of values xArray.
 **** taxoTree.py ****
 Implements a sligthly modified version of TaxoTree (compared to the one in TAXOTREE).
 
+**** training.py ****
+
 **** writeOnFiles ****
 Helps saving results in files.
 
-**** /files
-Stores written files using writeOnFiles functions.
+**** youden.py ****
+
+
 
 -----------------------------------------------------------------------------------------------------------------
 
