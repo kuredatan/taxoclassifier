@@ -62,4 +62,4 @@ def parseFasta(filename):
         idSequences.append((identifier,name))
         phyloSequences.append(currPhylogeny)
         k += 2
-    return idSequences,phyloSequences,fileLength,len(idSequences)
+    return idSequences,phyloSequences

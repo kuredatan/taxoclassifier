@@ -21,8 +21,8 @@ def parseMatch(filename):
 
 #Returns the list of identifiers of patients @idPatients in the file
 #and the array @allMatches such as @allMatches[i] is a pair (identifier of read,list of identifiers of sequences matching this read) associated to patient @idPatients[i]
-def parseAllMatch():
-    idPatients = ["BC_M0_good","DC_M0_good","GC_M0_good","TR_M0_good","BC_M3_good","DC_M3_good","GC_M3_good","TR_M3_good","BJ_M0_good","EY_M0_good","GM_M0_good","BJ_M3_good","EY_M3_good","GM_M3_good"]
+def parseAllMatch(filenames):
+    idPatients = filenames
     allMatches = []
     for ident in idPatients:
         allMatches.append(parseMatch(ident))
