@@ -14,7 +14,7 @@ from youden import countYouden,interpretIt
 
 from plottingValues import plotPearsonGraph,plotGraph,plotHist,plotPie
 
-#@dataArray = [samplesInfoList,infoList,paths,n,nodesList,taxoTree,sampleIDList,featuresVectorList,matchingSequences]
+#@dataArray = [samplesInfoList,infoList,paths,n,nodesList,taxoTree,sampleIDList,featuresVectorList,matchingSequences,idSequences,phyloSequences]
 
 integer = re.compile("[0-9]+")
 
@@ -232,7 +232,7 @@ def randomSubSamplingAct(dataArray):
 #_____________________________________________________________________________
 
 
-#@dataArray = [samplesInfoList,infoList,samplesOccList,speciesList,paths,n,nodesList,taxoTree,sampleIDList,featuresVectorList,matchingSequences] /!\ CHANGED
+#@dataArray = [samplesInfoList,infoList,paths,n,nodesList,taxoTree,sampleIDList,featuresVectorList,matchingSequences,idSequences,phyloSequences] /!\ CHANGED
 #Returns two arrays xArray and yArray, where yArray gives the value of a certain quantity depending on the values of xArray
 def creatingArray(dataArray,pearson=False):
     #Available cases in Pearson function

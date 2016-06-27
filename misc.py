@@ -4,7 +4,7 @@ import re
 
 from writeOnFiles import writeFile
 
-inf=100000000000000
+inf = 100000000000000
 
 integer = re.compile("[0-9]+")
 

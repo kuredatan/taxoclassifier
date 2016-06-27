@@ -73,7 +73,7 @@ def featuresCreate(sampleInfoList,infoList,filenames,fastaFileName):
             readsMatching = getMatchingReads(sequenceID,allMatches[i])
             matchingPatient.append((sequenceID,readsMatching))
         matchingSequences.append((idPatient[i],matchingPatient))
-    return featuresVectorList,matchingSequences
+    return featuresVectorList,
 
 def test():
     from parsingInfo import parseInfo
