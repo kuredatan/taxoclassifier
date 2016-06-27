@@ -46,7 +46,6 @@ def parseFasta(filename):
         currPhylogeny = []
         lsDirty = lines[k][1:].split(" ")
         identifier = lsDirty[0]
-        print identifier
         lsDirty = lsDirty[2:]
         name = ""
         i = 0
@@ -64,9 +63,3 @@ def parseFasta(filename):
         phyloSequences.append(currPhylogeny)
         k += 2
     return idSequences,phyloSequences,fileLength,len(idSequences)
-
-def test():
-    idSequences,phyloSequences = parseFasta("GREENGENES_gg16S_unaligned_10022015")
-    print idSequences[:2]
-    print phyloSequences[:2]
-    
