@@ -48,12 +48,23 @@ def modifyMDL(dimList,newValue,shape,mdl):
             for x in lsList[-1][i]:
                 newLs.append(x)
             lsList.append(newLs)
+    if not (len(dimList) == len(lsList) - 1):
+        print "\n/!\ ERROR: Length error in [modifyMDL]:",len(dimList),(len(lsList)-1)
+        raise ValueError
     dimList = dimList[::-1]
-    while lsList:
+    while lsList and dimList:
         ls = lsList.pop()
         ls[dimList[-1]] = newValue
         newValue = []
         for x in ls:
             newValue.append(x)
         _ = dimList.pop()
+    return ls
+
+def test():
+    ls = initMDL([],[2,3])
+    print ls
+    t = accessMDL([0,0],[2,3],ls)
+    value = t.append(4)
+    ls = modifyMDL([0,0],value,[2,3],ls)
     return ls

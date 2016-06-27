@@ -3,6 +3,7 @@ from random import randint
 #Each element of elementList is associated to a unique patient/bacteria
 #n is the size of the chosen set
 #Implementation of Algorithm R (Algorithm S with knuth=True)
+#Can be improved by returning also the set of unchosen elements
 def randomChoice(elementList,n,knuth=False):
     m = len(elementList)
     if m == n:
