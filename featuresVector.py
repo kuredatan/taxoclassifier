@@ -39,9 +39,7 @@ def getMatchingReads(sequenceID,matches):
 def featuresCreate(sampleInfoList,infoList,filenames=["BC_M0_good","DC_M0_good","GC_M0_good","TR_M0_good","BC_M3_good","DC_M3_good","GC_M3_good","TR_M3_good","BJ_M0_good","EY_M0_good","GM_M0_good","BJ_M3_good","EY_M3_good","GM_M3_good"],fastaFileName="GREENGENES_gg16S_unaligned_10022015"):
     featuresVectorList = []
     idPatients,allMatches = parseAllMatch(filenames)
-    print "done"
     idSequences,phyloSequences = parseFasta(FastaFileName)
-    print "done"
     #Link between file name and sample name?
     #As it is for now unknown, @featuresCreate returns the features vector list @featuresVectorList (name of sample,metadataList) list
     #+ the list of couples (node,ID reads) apart @matchingSequences
