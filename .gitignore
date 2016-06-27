@@ -8,6 +8,10 @@ TODO.txt
 *.csv~
 *.tree~
 *.taxotree
+*.match
+*.match~
+*.fasta
+*.fasta~
 *.taxotree~
 
 # Byte-compiled / optimized / DLL files

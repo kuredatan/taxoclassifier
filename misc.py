@@ -157,7 +157,7 @@ def sanitize(name):
     sName = ""
     sLs = []
     for l in ls:
-        if not (l == "" or l == "(class)" or l == "\n" or l == "#"):
+        if not (l == "" or l == "(class)" or l == "\n" or l == "#" or l == ";"):
             sLs.append(l)
     for l in sLs[:-1]:
         sName = sName + l + " "

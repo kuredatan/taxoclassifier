@@ -38,7 +38,7 @@ FN(c) are False Negative (the number of samples not assigned to C and matching C
 FP(c) are False Positive (the number of samples assigned to C and not matching C),
 and TN(c) are True Negative (the number of samples not assigned to C and not matching C).
 
-The best classification is the classification such as, for all class C, J(c) is the closest to 1.
+The best classification is the classification such as, for all class C, J(c) is the closest to 1 (that is, such as, if n is the sum of the J(C) for all s C, s - n is minimum and non-negative).
 
 -----------------------------------------------------------------------------------------------------------------
 
@@ -64,8 +64,14 @@ Contains useful macros.
 **** normalization.py ****
 Normalizes values from a list of values.
 
+**** parsingFasta.py ****
+Parses FASTA file stored at /meta.
+
 **** parsingInfo.py ****
 Parses data table stored at /meta.
+
+**** parsingMatch.py ****
+Parses MATCH files stored at /meta/match.
 
 **** parsingTree.py ****
 Parses taxonomic tree stored at /meta.
