@@ -4,11 +4,21 @@ import numpy as np
 from misc import inf
 
 #Hypothesis of uniform probability for the occurrence of any bacteria whatever the clinic data may be (which is a strong hypothesis...)
+def expectList(vList):
+    n = len(vList)
+    if not n:
+        print "\n/!\ ERROR: Empty list."
+        raise ValueError
+    exp = 0
+    for i in range(n):
+        exp += vList[i]/n
+    return exp
+
 #Returns expectation and standard deviation
-def expectSTDevList(vArray):
-    vProductArray = [x*x for x in vArray]
-    expProd = expectList(vProductArray)
-    exp = expectList(vArray)
+def expectSTDevList(vList):
+    vProductList = [x*x for x in vList]
+    expProd = expectList(vProductList)
+    exp = expectList(vList)
     expS = exp*exp
     return exp,np.sqrt(expProd-expS)
 

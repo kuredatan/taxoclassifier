@@ -14,7 +14,7 @@ from youden import countYouden,interpretIt
 
 from plottingValues import plotPearsonGraph,plotGraph,plotHist,plotPie
 
-#@dataArray = [samplesInfoList,infoList,samplesOccList,speciesList,paths,n,nodesList,taxoTree,sampleIDList,featuresVectorList]
+#@dataArray = [samplesInfoList,infoList,paths,n,nodesList,taxoTree,sampleIDList,featuresVectorList,matchingSequences]
 
 integer = re.compile("[0-9]+")
 
@@ -118,7 +118,7 @@ def createSampleNameList(dataArray,percentage=False):
     metadataList = []
     interval1List = []
     interval2List = []
-    sampleIDList = dataArray[8]
+    sampleIDList = dataArray[6]
     if percentage:
         i = raw_input("/!\ How many different lists of samples do you want?\n")
         if not integer.match(i):
@@ -190,8 +190,8 @@ def userNodeSelectionAct(dataArray):
     print dataArray[1]
     metadataList = parseList(raw_input("Input the list of metadata that will cluster the set of samples among those written above. [ e.g. " + dataArray[1][0] + ";" + dataArray[1][-1] + " ]\n"))
     isInDatabase(metadataList,dataArray[1])
-    nodesList = parseListNode(raw_input("Choose the group of nodes you want to consider exclusively. [ Read the taxonomic tree to help you: e.g. " + sanitizeNode(dataArray[6][-3]) + ";" + sanitizeNode(dataArray[6][1]) + ";" + sanitizeNode(dataArray[6][-1]) + " ]\n"))
-    isInDatabase(valueInput1,dataArray[6])
+    nodesList = parseListNode(raw_input("Choose the group of nodes you want to consider exclusively. [ Read the taxonomic tree to help you: e.g. " + sanitizeNode(dataArray[4][-3]) + ";" + sanitizeNode(dataArray[4][1]) + ";" + sanitizeNode(dataArray[4][-1]) + " ]\n"))
+    isInDatabase(valueInput1,dataArray[4])
     #@classesList contains the lists of samples, each list being a distinct class
     classesList = classifyIt(dataArray,metadataList,nodesList)
     youdenJ = countYouden(classesList,metadataList)
@@ -212,7 +212,7 @@ def randomSubSamplingAct(dataArray):
     bestClassesList = []
     #Worse value for this coefficient
     currBestYouden = -1
-    nodesNumber = dataArray[5]
+    nodesNumber = dataArray[3]
     while s:
         #Randomly draw n distinct nodes among the nodes in the taxonomic tree
         nodesList = []
@@ -232,16 +232,16 @@ def randomSubSamplingAct(dataArray):
 #_____________________________________________________________________________
 
 
-#@dataArray = [samplesInfoList,infoList,samplesOccList,speciesList,paths,n,nodesList,taxoTree,sampleIDList,#similarityMatrix]
+#@dataArray = [samplesInfoList,infoList,samplesOccList,speciesList,paths,n,nodesList,taxoTree,sampleIDList,featuresVectorList,matchingSequences] /!\ CHANGED
 #Returns two arrays xArray and yArray, where yArray gives the value of a certain quantity depending on the values of xArray
 def creatingArray(dataArray,pearson=False):
     #Available cases in Pearson function
     if pearson:
         typeInput = raw_input("Do you want to compute bacteria/bacteria or bacteria/metadatum? BB/BM [ Please read README for details. ]\n")
         if (typeInput == "BB"):
-            valueInput1 = parseListNode(raw_input("Choose the first group of bacterias [ Read the taxonomic tree to help you: e.g. " + sanitizeNode(dataArray[6][-3]) + ";" + sanitizeNode(dataArray[6][1]) + ";" + sanitizeNode(dataArray[6][-1]) + " ]\n"))
+            valueInput1 = parseListNode(raw_input("Choose the first group of bacterias [ Read the taxonomic tree to help you: e.g. " + sanitizeNode(dataArray[4][-3]) + ";" + sanitizeNode(dataArray[4][1]) + ";" + sanitizeNode(dataArray[4][-1]) + " ]\n"))
             isInDatabase(valueInput1,dataArray[6])
-            valueInput2 = parseListNode(raw_input("Choose the second group of bacterias [ Read the taxonomic tree to help you: e.g. " + sanitizeNode(dataArray[6][-3]) + ";" + sanitizeNode(dataArray[6][1]) + ";" + sanitizeNode(dataArray[6][-1]) + " ]\n"))
+            valueInput2 = parseListNode(raw_input("Choose the second group of bacterias [ Read the taxonomic tree to help you: e.g. " + sanitizeNode(dataArray[4][-3]) + ";" + sanitizeNode(dataArray[4][1]) + ";" + sanitizeNode(dataArray[4][-1]) + " ]\n"))
             isInDatabase(valueInput2,dataArray[6])
             xArray,yArray = getValueBacteriaBacteria(dataArray[2],dataArray[3],dataArray[8],valueInput1,valueInput2)
             return xArray,yArray,typeInput,valueInput1,valueInput2
@@ -295,6 +295,7 @@ def printTreeAct(dataArray):
 
 #____________________________________________________________________________
 
+#MODIFY CREATING ARRAY
 def plottingAct(dataArray):
     creatingArrayOutput = creatingArray(dataArray)
     if creatingArrayOutput[0] == "graph":

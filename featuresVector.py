@@ -36,10 +36,20 @@ def getMatchingReads(sequenceID,matches):
     return readsMatching
         
 #Returns a list of features vectors
-def featuresCreate(sampleInfoList,infoList,filenames=["BC_M0_good","DC_M0_good","GC_M0_good","TR_M0_good","BC_M3_good","DC_M3_good","GC_M3_good","TR_M3_good","BJ_M0_good","EY_M0_good","GM_M0_good","BJ_M3_good","EY_M3_good","GM_M3_good"],fastaFileName="GREENGENES_gg16S_unaligned_10022015"):
+def featuresCreate(sampleInfoList,infoList,filenames,fastaFileName):
     featuresVectorList = []
-    idPatients,allMatches = parseAllMatch(filenames)
-    idSequences,phyloSequences = parseFasta(FastaFileName)
+    print "/!\ Parsing .match files"
+    print "[ You may have to wait a few minutes... ]"
+    try:
+        idPatients,allMatches = parseAllMatch(filenames)
+    except IOError:
+        print "\nERROR: Maybe the filename you gave does not exist in \"meta/matches\" folder\n"
+    print "/!\ Parsing .fasta files"
+    print "[ You may have to wait a few minutes... ]"
+    try:
+        idSequences,phyloSequences = parseFasta(FastaFileName)
+    except IOError:
+        print "\nERROR: Maybe the filename you gave does not exist in \"meta\" folder\n"    
     #Link between file name and sample name?
     #As it is for now unknown, @featuresCreate returns the features vector list @featuresVectorList (name of sample,metadataList) list
     #+ the list of couples (node,ID reads) apart @matchingSequences
