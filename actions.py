@@ -191,7 +191,7 @@ def userNodeSelectionAct(dataArray):
     metadataList = parseList(raw_input("Input the list of metadata that will cluster the set of samples among those written above. [ e.g. " + dataArray[1][0] + ";" + dataArray[1][-1] + " ]\n"))
     isInDatabase(metadataList,dataArray[1])
     nodesList = parseListNode(raw_input("Choose the group of nodes you want to consider exclusively. [ Read the taxonomic tree to help you: e.g. " + sanitizeNode(dataArray[4][-3]) + ";" + sanitizeNode(dataArray[4][1]) + ";" + sanitizeNode(dataArray[4][-1]) + " ]\n"))
-    isInDatabase(valueInput1,dataArray[4])
+    isInDatabase(nodesList,dataArray[4])
     #@classesList contains the lists of samples, each list being a distinct class
     classesList = classifyIt(dataArray,metadataList,nodesList)
     youdenJ = countYouden(classesList,metadataList)
