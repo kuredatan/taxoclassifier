@@ -1,72 +1,97 @@
-#Not programming it as a class to use methods for lists
-
 class MultiDimList(object):
-    pass
-
-#@shape is a list of dimensions (integers)
-#Returns a multi-dimensionnal list initialized with @init's
-def initMDL(init,shape):
-    mdList = init
-    shape = shape[::-1]
-    for dim in shape:
-        if mdList == init:
-            mdList = [ init for _ in range(dim) ]
-        else:
-            dimLists = []
-            #To avoid an expensive deepcopy
-            for i in range(dim):
-                dimList = []
-                for element in mdList:
-                    dimList.append(element)
-                dimLists.append(dimList)
-            mdList = [ dimLists[i] for i in range(dim)]
-    return mdList
-
-def lenMDL(mdl,shape):
-    s = 1
-    for dim in shape:
-        s = s*dim
-    return s
-
-def accessMDL(dimList,shape,mdl):
-    if len(dimList) > len(shape):
-        print "\n/!\ ERROR: Cannot access this multi-dimensional list."
-        raise ValueError
-    for i in dimList:
-        n = len(mdl)
-        if i > n or 0 > i:
-            print "\n/!\ Dimension error."
+    #
+    #
+    #@shape is a list of dimensions (integers)
+    #Returns a multi-dimensionnal list initialized with @init's
+    def __init__(self,init,shape):
+        if not shape:
+            return None
+        mdList = init
+        shape = shape[::-1]
+        for dim in shape:
+            if mdList == init:
+                mdList = [ init for _ in range(dim) ]
+            else:
+                mdListsMultiplied = []
+                #To avoid an expensive deepcopy
+                for i in range(dim):
+                    mdListCopy = []
+                    for element in mdList:
+                        mdListCopy.append(element)
+                    mdListsMultiplied.append(mdListCopy)
+                mdList = [ mdListsMultiplied[i] for i in range(dim)]
+        self.mdList = mdList
+        self.shape = shape
+    #
+    #
+    def lenMDL(self):
+        length = 1
+        for dim in self.shape:
+            length = length*dim
+        return length
+    #
+    #
+    def accessMDL(self,dimList):
+        if not self.shape:
+            print "\n/!\ ERROR: Empty list."
             raise ValueError
-        mdl = mdl[i]
-    return mdl
-
-def modifyMDL(dimList,newValue,shape,mdl):
-    if len(dimList) > len(shape):
-        print "\n/!\ ERROR: Cannot access this multi-dimensional list."
-        raise ValueError
-    lsList = [mdl]
-    for i in dimList:
-        n = len(lsList[-1])
-        if i > n or 0 > i:
-            print "\n/!\ Dimension error."
+        if not (len(dimList) == len(self.shape)):
+            print "\n/!\ ERROR: Cannot access this multi-dimensional list."
             raise ValueError
-        newLs = []
-        if isinstance(lsList[-1][i],list):
-            for x in lsList[-1][i]:
-                newLs.append(x)
-            lsList.append(newLs)
-    if not (len(dimList) == len(lsList)):
-        print "\n/!\ ERROR: Length error in [modifyMDL]:",len(dimList),len(lsList),"."
-        raise ValueError
-    dimList = dimList[::-1]
-    while lsList and dimList:
-        ls = lsList.pop()
-        ls[dimList[-1]] = newValue
-        newValue = []
-        for x in ls:
-            newValue.append(x)
-        _ = dimList.pop()
-    return ls
+        shapeCopy = []
+        for dim in self.shape:
+            shapeCopy.append(dim)
+        mdl = []
+        for element in self.mdList:
+            mdl.append(element)
+        while dimList and shapeCopy:
+            dim1 = dimList.pop()
+            dim2 = shapeCopy.pop()
+            if dim1 > dim2 or 0 > dim1:
+                print "\n/!\ Dimension error: i =",dim1,"."
+                raise ValueError
+            mdl = mdl[dim1]
+        return mdl
+    #
+    #
+    def copyMDL(self):
+        mdList = self.mdList
+        shape = self.shape
+        if not mdList:
+            return None
+        mdl = MultiDimList(None,shape)
+        #########################################################
+    #
+    #
+    def modifyMDL(self,dimList,newValue):
+        if not self.shape:
+            print "\n/!\ ERROR: Empty list."
+            raise ValueError
+        if not (len(dimList) == len(self.shape)):
+            print "\n/!\ ERROR: Cannot access this multi-dimensional list."
+            raise ValueError
+        lsList = []
+        mdl = []
+        for x in self.
+        for dim in dimList:
+            n = len(lsList[-1])
+            if dim > n or 0 > dim:
+                print "\n/!\ Dimension error."
+                raise ValueError
+            newLs = []
+            if isinstance(lsList[-1][dim],list):
+                for x in lsList[-1][dim]:
+                    newLs.append(x)
+                lsList.append(newLs)
+        dimList = dimList[::-1]
+        while lsList and dimList:
+            ls = lsList.pop()
+            ls[dimList[-1]] = newValue
+            newValue = []
+            for x in ls:
+                newValue.append(x)
+            _ = dimList.pop()
+        return ls
 
 #If a1, a2, a3, ..., ap are the elements of @mdl (in a certain order)
 #Returns [ f(a1), f(a2), ..., f(ap) ]
@@ -81,8 +106,9 @@ def mapMDL(mdl,shape,f):
 
     
 def test():
-    ls = initMDL(0,[2,3])
-    print ls
-    t = accessMDL([0,0],[2,3],ls)
-    ls = modifyMDL([1,2],4,[2,3],ls)
+    ls = MultiDimList(0,[2,3])
+    print ls.mdList
+    t = ls.accessMDL([0,0])
+    print t
+    ls = ls.modifyMDL([1,2],4)
     return ls

@@ -8,11 +8,11 @@ from multiDimList import MultiDimList
 
 #Computes Bayes's theorem
 #Uses an hypothesis of Bernouilli naive distribution (that is, we are assuming the independance between the values of metadata) + equiprobability of being in one of the classes (that is, we are assuming that a sample can be equiprobably take one of the values of the total set of values of the metadatum), which are quite strong hypotheses (for a clearer explanation, see README)
-#Returns a list @postMeasures containing class probabilities for each class such as @postMeasures[i] is the class probability for class @assignedClasses[i] (corresponding to pair valuesClasses[i])
-#@numberClass = len(@valuesClasses) = len(@classes) = len(@assignedClasses)
+#Returns a MDL @postMeasures containing class probabilities for each class such as @postMeasures[dimList] is the class probability for class @assignedClasses[dimList]
 def probabilityKnowingClass(nodesList,assignedClasses,dataArray,numberClass,numberNodes,probList,nodesPresence,numberMatching):
-    #@probKnowingClass[i][j] is the probability of node nodesList[i] being in class assignedClass[j]
-    probKnowingClass = [[0]*numberClass]*numberNodes
+    #@probKnowingClass[dimList][i] = @probKnowingClass[a1][a2][...][i] is the probability of having node @nodesList[i] knowing that sample is in class @assignedClasses[dimList]
+    probKnowingClass = MultiDimList(0,shape)
+    ####################################################IMPLEMENTING MDL
     nod = 0
     cl = 0
     for node in nodesList:
@@ -34,6 +34,7 @@ def probabilityKnowingClass(nodesList,assignedClasses,dataArray,numberClass,numb
             cl += 1
         nod += 1
     return probKnowingClass
+#################################################################################
 
 def bayesCalculus(sample,nodesList,dataArray,assignedClasses,numberClass,numberNodes,numberMatching,probList,nodesPresence):
     postMeasures = MultiDimList(0,assignedClasses.shape)
@@ -44,18 +45,25 @@ def bayesCalculus(sample,nodesList,dataArray,assignedClasses,numberClass,numberN
     #with the bayesian average used for probabilities of having a node, but it would be as irrelevant, because interaction between
     #metadata values are depending on the real definition of the metadata (see data matrix)
     probBeingInClass = 1/numberClass
+    #@probKnowingClass is a MDL such as, if dimList = [a1,a2, ...] is the index list for a certain class
+    #@probKnowingClass[dimList][i] = @probKnowingClass[a1][a2][...][i] is the probability of having node @nodesList[i] knowing that sample is in class @assignedClasses[dimList]
     probKnowingClass = probabilityKnowingClass(nodesList,assignedClasses,dataArray,numberClass,numberNodes,probList,nodesPresence,numberMatching)
-    probWithoutEvidence = []
+    probWithoutEvidence = MultiDimList(0,assignedClasses.shape)
+    for dim in assignedClasses.shape:
+        shapeCopy.append(dim)
     evidence = 0
-    for cl in range(numberClass):
-        #product of probabilities of having a node knowing the class
-        product = 1
-        for nod in range(numberNodes):
-            product = product*probKnowingClass[nod][cl]
+    #####################################ENUMERATING MDL!!!!!
+    while shapeCopy and not endIt:
+        for i in range(shapeCopy.pop()):
+            #product of probabilities of having a node knowing the class
+            product = 1
+            for nod in range(numberNodes):
+                product = product*probKnowingClass[nod][cl]
         evidence += probBeingInClass*product
         probWithoutEvidence.append(product * probBeingInClass)
     postMeasures[i] = 1/evidence * probWithoutEvidence[i]
     return postMeasures
+    #############################################
 
 #Returns @assignedClasses (partition of the whole set of samples according to node population)
 #and @classes (partition of the whole set of samples according to the values of metadata)
