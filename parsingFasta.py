@@ -1,4 +1,5 @@
 from misc import sanitize
+from time import time
 
 import re
 
@@ -32,6 +33,7 @@ def recomposeNameList(nameList):
 #Returns the list of pairs (identifiers of sequence,name of sequence) @idSequences in the file
 #and the array @phyloSequences such as @phyloSequences[i] is the phylogeny of @idSequences[i]
 def parseFasta(filename):
+    start = time()
     idSequences = []
     phyloSequences = []
     file_fasta = open("meta/" + filename + ".fasta","r")
@@ -44,22 +46,27 @@ def parseFasta(filename):
         #first line: >identifier integer.integer name rank__name;rank__name; ...; otu_integer [phylogeny]
         #second line: sequence associated to this identifier
         currPhylogeny = []
+        #deletes > part
         lsDirty = lines[k][1:].split(" ")
-        identifier = lsDirty[0]
+        identifier = sanitize(lsDirty[0])
+        #from name...
         lsDirty = lsDirty[2:]
         name = ""
         i = 0
         n = len(lsDirty)
         while lsDirty and not phylogeny.match(lsDirty[i]):
-            name += lsDirty[i] + " "
+            name += sanitize(lsDirty[i]) + " "
             i += 1
         #deletes last white space
         name = name[:-1]
         #deletes "otu" part
         lsDirty = recomposeNameList(lsDirty[i:-1])
+        #gets back phylogeny
         for phylo in lsDirty:
             currPhylogeny.append(getBackBacteria(sanitize(phylo).split(";")[0]))
         idSequences.append((identifier,name))
         phyloSequences.append(currPhylogeny)
         k += 2
+    end = time()
+    print "TIME .fasta:",(end-start)
     return idSequences,phyloSequences

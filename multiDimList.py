@@ -1,5 +1,8 @@
 #Not programming it as a class to use methods for lists
 
+class MultiDimList(object):
+    pass
+
 #@shape is a list of dimensions (integers)
 #Returns a multi-dimensionnal list initialized with @init's
 def initMDL(init,shape):
@@ -19,10 +22,15 @@ def initMDL(init,shape):
             mdList = [ dimLists[i] for i in range(dim)]
     return mdList
 
+def lenMDL(mdl,shape):
+    s = 1
+    for dim in shape:
+        s = s*dim
+    return s
 
 def accessMDL(dimList,shape,mdl):
     if len(dimList) > len(shape):
-        print "\n/!\ ERROR: Cannot access this multi-dimensionnal list."
+        print "\n/!\ ERROR: Cannot access this multi-dimensional list."
         raise ValueError
     for i in dimList:
         n = len(mdl)
@@ -32,10 +40,9 @@ def accessMDL(dimList,shape,mdl):
         mdl = mdl[i]
     return mdl
 
-
 def modifyMDL(dimList,newValue,shape,mdl):
     if len(dimList) > len(shape):
-        print "\n/!\ ERROR: Cannot access this multi-dimensionnal list."
+        print "\n/!\ ERROR: Cannot access this multi-dimensional list."
         raise ValueError
     lsList = [mdl]
     for i in dimList:
@@ -48,8 +55,8 @@ def modifyMDL(dimList,newValue,shape,mdl):
             for x in lsList[-1][i]:
                 newLs.append(x)
             lsList.append(newLs)
-    if not (len(dimList) == len(lsList) - 1):
-        print "\n/!\ ERROR: Length error in [modifyMDL]:",len(dimList),(len(lsList)-1)
+    if not (len(dimList) == len(lsList)):
+        print "\n/!\ ERROR: Length error in [modifyMDL]:",len(dimList),len(lsList),"."
         raise ValueError
     dimList = dimList[::-1]
     while lsList and dimList:
@@ -61,10 +68,21 @@ def modifyMDL(dimList,newValue,shape,mdl):
         _ = dimList.pop()
     return ls
 
+#If a1, a2, a3, ..., ap are the elements of @mdl (in a certain order)
+#Returns [ f(a1), f(a2), ..., f(ap) ]
+def mapMDL(mdl,shape,f):
+    resultList = []
+    limitDim = []
+    for dim in shape:
+        limitDim.append(dim)
+    for dim in limitDim:
+        ()
+    return 0
+
+    
 def test():
-    ls = initMDL([],[2,3])
+    ls = initMDL(0,[2,3])
     print ls
     t = accessMDL([0,0],[2,3],ls)
-    value = t.append(4)
-    ls = modifyMDL([0,0],value,[2,3],ls)
+    ls = modifyMDL([1,2],4,[2,3],ls)
     return ls
