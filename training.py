@@ -70,7 +70,7 @@ def selectTrainingSample(dataArray,n,knuth=False):
 #compute the Youden's J coefficient
 #returns @assignedClasses that is the partial partition of the set of samples restricted to the samples in @trainSubset
 def assignClass(trainSubset,classes):
-    classLength = classes.mapMDL(len)
+    classLength = classes.mapIntoListMDL(len)
     assignedClasses = MultiDimList([],classes.shape)
     for sampleID in trainSubset:
         dimList = classes.searchMDL(sampleID)

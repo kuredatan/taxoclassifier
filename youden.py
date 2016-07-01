@@ -7,15 +7,16 @@ from multiDimList import MultiDimList
 #Returns the sum of J(C) for all classes C (see README)
 #@classes and @assignedClasses are MDL
 def countYouden(classes,assignedClasses,n):
+    if not (classes.shape == assignedClasses.shape):
+        print "\n/!\ ERROR: Length error : classes",classes.shape,"and assignedClasses",assignedClasses.shape,"."
+        raise ValueError
     youdenCoeffList = []
     classesCopy = classes.copyMDL()
     assignedClassesCopy = assignedClasses.copyMDL()
-    while assignedClassesCopy and classesCopy:
-        if not (classes.shape == assignedClasses.shape):
-            print "\n/!\ ERROR: Length error : classes",classes.shape,"and assignedClasses",assignedClasses.shape,"."
-            raise ValueError
+    class1,nextClasses = classesCopy.nextMDL()
+    asClass1,nextAssignedClasses = assignedClasses.nextMDL()
+    while nextClasses and nextAssignedClasses:
         #@class1 and @asClass1 are lists
-        class1,asClass1 = classesCopy.nextMDL(),assignedClassesCopy.nextMDL()
         tp,fp,fn = 0,0,0
         #TN = @n - FP - TP - FN
         for sample in class1:
@@ -32,6 +33,7 @@ def countYouden(classes,assignedClasses,n):
             print "\n/!\ ERROR: Inconsistent value of Youden's J coefficient:",j,"."
             raise ValueError
         youdenCoeffList.append(j)
+        class1,asClass1 = nextClasses.pop(),nextAssignedClasses.pop()
     s = 0
     for j in youdenCoeffList:
         s += j
