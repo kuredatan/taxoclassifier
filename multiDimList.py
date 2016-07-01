@@ -1,5 +1,6 @@
 import copy as cp
 from time import time
+from misc import addOne
 
 class MultiDimList(object):
     #
@@ -151,29 +152,33 @@ class MultiDimList(object):
         self.mdList = newValue
         self.shape = self.shape[0] - 1
         return element
-
-
-def searchMDL(self,element):
-    () #returns dimList
-        
+    #
+    #
+    def searchMDL(self,element):
+        currDimList = [0]*len(self.shape)
+        getElement = self.accessMDL(currDimList)
+        while currDimList and not (getElement == element):
+            currDimList = addOne(currDimList,self.shape)
+            getElement = self.accessMDL(currDimList)
+        return currDimList
+    #
+    #
+    #TODO
     #If a1, a2, a3, ..., ap are the elements of @mdl (from left to right and top to bottom)
     #Returns [ f(a1), f(a2), ..., f(ap) ]
-def auxMapMDL(self,f,shape,mdList):
-    ()
-    
-def mapMDL(self,f):
-    ()
+    def mapMDL(self,f):
+        ()
+
     
 def test():
-    ls = MultiDimList([],[2,3])
+    ls = MultiDimList(0,[2,3])
     ls2 = ls.copyMDL()
     t = ls.accessMDL([0,0])
-    ls = ls.modifyMDL([1,2],[4])
-    ls = ls.modifyMDL([0,0],[2])
-    ls = ls.modifyMDL([1,1],[10])
+    ls = ls.modifyMDL([1,2],4)
+    ls = ls.modifyMDL([0,0],2)
+    ls = ls.modifyMDL([1,1],10)
     print ls.mdList
-    print ls.nextMDL()
-    print ls.mdList
-    print ls.nextMDL()
-    print ls.mdList
+    print ls.searchMDL(4)
     print ls2.mdList
+
+    

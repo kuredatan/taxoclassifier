@@ -8,6 +8,27 @@ inf = 100000000000000
 
 integer = re.compile("[0-9]+")
 
+#To enumerate elements of a MDL
+def addOne(dimList,shape):
+    if not (len(dimList) == len(shape)):
+        print "\n/!\ ERROR: Dimensions incorrect: dimList:",len(dimList),"shape:",len(shape),"."
+        raise ValueError
+    element = dimList[-1] + 1
+    if element >= shape[-1]:
+        i = len(shape) - 1
+        while i > 0 and element >= shape[i]:
+            dimList[i] = 0
+            element = dimList[i-1] + 1
+            i -= 1
+        if i == 0 and element >= shape[i]:
+            return []
+        else:
+            dimList[i] += 1
+            return dimList
+    else:
+        dimList = dimList[:-1] + [ element ]
+        return dimList
+
 def truncate(number, digitNumber):
     #Splitting the decimal and the integer parts of @number
     numberStringed = str(number).split('.')
