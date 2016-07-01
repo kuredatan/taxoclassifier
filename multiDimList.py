@@ -1,3 +1,6 @@
+import copy as cp
+from time import time
+
 class MultiDimList(object):
     #
     #
@@ -59,8 +62,16 @@ class MultiDimList(object):
         shape = self.shape
         if not mdList:
             return None
-        mdl = MultiDimList(None,shape)
-        #########################################################
+        mdlObject = MultiDimList(None,shape)
+        shapeCopy = []
+        for dim in self.shape:
+            shapeCopy.append(dim)
+        mdlCopy = []
+        for element in self.mdList:
+            mdlCopy.append(element)
+        mdlObject.shape = shapeCopy
+        mdlObject.mdList = mdlCopy
+        return mdlObject
     #
     #
     def modifyMDL(self,dimList,newValue):
@@ -70,45 +81,99 @@ class MultiDimList(object):
         if not (len(dimList) == len(self.shape)):
             print "\n/!\ ERROR: Cannot access this multi-dimensional list."
             raise ValueError
-        lsList = []
-        mdl = []
-        for x in self.
-        for dim in dimList:
-            n = len(lsList[-1])
-            if dim > n or 0 > dim:
-                print "\n/!\ Dimension error."
-                raise ValueError
-            newLs = []
-            if isinstance(lsList[-1][dim],list):
-                for x in lsList[-1][dim]:
-                    newLs.append(x)
-                lsList.append(newLs)
+        dimListCopy = []
         dimList = dimList[::-1]
-        while lsList and dimList:
-            ls = lsList.pop()
-            ls[dimList[-1]] = newValue
-            newValue = []
-            for x in ls:
-                newValue.append(x)
-            _ = dimList.pop()
-        return ls
+        for dim in dimList:
+            dimListCopy.append(dim)
+        shapeCopy = []
+        for dim in self.shape:
+            shapeCopy.append(dim)
+        mdlCopy = []
+        for element in self.mdList:
+            mdlCopy.append(cp.deepcopy(element))
+        lsList = [ mdlCopy ]
+        #len(dimList) = len(shape)
+        while not (len(dimList) == 1):
+            dim = dimList.pop()
+            shapeDim = shapeCopy.pop()
+            if dim >= shapeDim:
+                print "\n/!\ ERROR: dimensions do not match(1):",dim,shapeDim,"."
+                raise ValueError
+            mdlCopy = cp.deepcopy(mdlCopy[dim])
+            lsList.append(mdlCopy)
+        dim = dimList.pop()
+        shapeDim = shapeCopy.pop()
+        if dim >= shapeDim:
+            print "\n/!\ ERROR: dimensions do not match(2):",dim,shapeDim,"."
+            raise ValueError
+        dimListCopy = dimListCopy[::-1]
+        while dimListCopy and lsList:
+            dim = dimListCopy.pop()
+            lsList[-1][dim] = newValue
+            newValue = lsList.pop()
+        self.mdList = newValue
+        return self
+    #
+    #TODO
+    def nextMDL(self):
+        if not self.shape:
+            print "\n/!\ ERROR: Empty list."
+            raise ValueError
+        if not isinstance(self.shape,list):
+            return None
+        shapeCopy = []
+        for dim in self.shape:
+            shapeCopy.append(dim)
+        mdl = []
+        for element in self.mdList:
+            mdl.append(element)
+        lsList = [ mdl ]
+        while not (len(shapeCopy) == 1):
+            _ = shapeCopy.pop()
+            mdl = mdl[0]
+            lsList.append(mdl)
+        element = mdl[0]
+        lsList[-1] = mdl[1:]
+        newValue = lsList.pop()
+        shape = []
+        if newValue and (self.shape[-1] - 1 > 1):
+            self.shape = self.shape[:-1] + [ self.shape[-1] - 1 ]
+        elif newValue:
+            self.shape = self.shape[:-1]
+        while lsList and not newValue:
+            newValue = lsList.pop()[1:]
+            num = self.shape[-1] - 1
+            if (num >= 1):
+                shape = [num] + shape
+        while lsList:
+            lsList[-1] = newValue
+            newValue = lsList.pop()
+        self.mdList = newValue
+        self.shape = self.shape[0] - 1
+        return element
 
-#If a1, a2, a3, ..., ap are the elements of @mdl (in a certain order)
-#Returns [ f(a1), f(a2), ..., f(ap) ]
-def mapMDL(mdl,shape,f):
-    resultList = []
-    limitDim = []
-    for dim in shape:
-        limitDim.append(dim)
-    for dim in limitDim:
-        ()
-    return 0
 
+def searchMDL(self,element):
+    () #returns dimList
+        
+    #If a1, a2, a3, ..., ap are the elements of @mdl (from left to right and top to bottom)
+    #Returns [ f(a1), f(a2), ..., f(ap) ]
+def auxMapMDL(self,f,shape,mdList):
+    ()
+    
+def mapMDL(self,f):
+    ()
     
 def test():
-    ls = MultiDimList(0,[2,3])
-    print ls.mdList
+    ls = MultiDimList([],[2,3])
+    ls2 = ls.copyMDL()
     t = ls.accessMDL([0,0])
-    print t
-    ls = ls.modifyMDL([1,2],4)
-    return ls
+    ls = ls.modifyMDL([1,2],[4])
+    ls = ls.modifyMDL([0,0],[2])
+    ls = ls.modifyMDL([1,1],[10])
+    print ls.mdList
+    print ls.nextMDL()
+    print ls.mdList
+    print ls.nextMDL()
+    print ls.mdList
+    print ls2.mdList
