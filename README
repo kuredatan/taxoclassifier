@@ -55,7 +55,7 @@ Details about the files:
 
 **** featuresVector.py ****
 
-**** /files
+**** /files ****
 Stores written files using writeOnFiles functions.
 
 **** main.py ****
@@ -66,6 +66,9 @@ Contains raw material.
 
 **** misc.py ****
 Contains useful macros.
+
+**** multiDimList.py ****
+Implementation of multi-dimensional lists.
 
 **** parsingFasta.py ****
 Parses FASTA file stored at /meta.
