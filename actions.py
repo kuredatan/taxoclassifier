@@ -74,8 +74,12 @@ def userNodeSelectionAct(dataArray):
     isInDatabase(metadata,dataArray[1])
     nodesList = parseListNode(raw_input("Choose the group of nodes you want to consider exclusively. [ Read the taxonomic tree to help you: e.g. " + sanitizeNode(dataArray[2][-3]) + ";" + sanitizeNode(dataArray[2][1]) + ";" + sanitizeNode(dataArray[2][-1]) + " ]\n"))
     isInDatabase(nodesList,dataArray[2])
+    numberStartingSamples = int(sanitize(raw_input("Knowing there is/are " + str(dataArray[0]) + "sample(s), how many samples do you want to create the training set?")))
+    if not integer.match(numberStartingSamples):
+        print "\n/!\ ERROR: You should write down an integer."
+        raise ValueError
     #@shape for @assignedClasses is the same than the one for @classes
-    assignedClasses,classes,valueSets = classifyIt(dataArray,metadata,nodesList)
+    assignedClasses,classes,valueSets = classifyIt(dataArray,metadata,nodesList,numberStartingSamples)
     numberClass = classes.lenMDL()
     #len(dataArray[0])?
     youdenJ = countYouden(assignedClasses,classes,len(dataArray[0]))
@@ -108,6 +112,10 @@ def randomSubSamplingAct(dataArray):
         print "\n/!\ ERROR: s and n must both be integers."
         raise ValueError
     s,n = int(s),int(n)
+    numberStartingSamples = int(sanitize(raw_input("Knowing there is/are " + str(dataArray[0]) + "sample(s), how many samples do you want to create the training set?")))
+    if not integer.match(numberStartingSamples):
+        print "\n/!\ ERROR: You should write down an integer."
+        raise ValueError
     #Here the set of classes is a list of two lists containing the samples in C and not C
     bestClassification = []
     bestClassesList = []
@@ -119,7 +127,7 @@ def randomSubSamplingAct(dataArray):
     while s:
         #Randomly draw n distinct nodes among the nodes in the taxonomic tree
         nodesList = randomChoice(dataArray[2],n)
-        assignedClasses,classes,valueSets = classifyIt(dataArray,metadata,nodesList)
+        assignedClasses,classes,valueSets = classifyIt(dataArray,metadata,nodesList,numberStartingSamples)
         numberClass = classes.lenMDL(shape)
         #len(dataArray[0])?
         youdenJ = countYouden(assignedClasses,classes,len(dataArray[0]))

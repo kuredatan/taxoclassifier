@@ -67,13 +67,13 @@ def bayesCalculus(sample,nodesList,dataArray,assignedClasses,numberClass,numberN
 
 #Returns @assignedClasses (partition of the whole set of samples according to node population)
 #and @classes (partition of the whole set of samples according to the values of metadata)
-def classifyIt(dataArray,metadatum,nodesList):
+def classifyIt(dataArray,metadatum,nodesList,numberStartingSamples):
     #@assignedClasses is the current partial (MDL) partition of the set of samples
     #@classes is the partition (MDL) of the whole set of samples (to compute Youden's J coefficient)
     #@unchosen is the set of samples remaining to be clustered
     #@probList is a list such as @probList[i] is the prior probability of having node @nodesList[i] in a sample
     #@nodesPresence is a list such as @nodesPresence[i][j] = 1 if node nodesList[i] matches in sample matchingNodes[j][0]
-    classes,valueSets,assignedClasses,unchosen,probList,nodesPresence = trainingPart(dataArray,metadatum,nodesList)
+    classes,valueSets,assignedClasses,unchosen,probList,nodesPresence = trainingPart(dataArray,metadatum,nodesList,numberStartingSamples)
     numberClass = classes.lenMDL()
     numberNodes = len(nodesList)
     numberMatching = len(dataArray[5])
