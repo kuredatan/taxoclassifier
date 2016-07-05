@@ -10,11 +10,11 @@ TODO.txt
 *.tree
 *.tree~
 *.taxotree
+*.taxotree~
 *.match
 *.match~
 *.fasta
 *.fasta~
-*.taxotree~
 *.5
 *.5~
 
