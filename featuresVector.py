@@ -19,8 +19,8 @@ def getNextRank(rank,ranks=["R","K","P","C","O","F","G","S"]):
         print "\n/!\ ERROR: Wrong phylogeny (1). Please change the ranks array in featuresVector.py."
         raise ValueError
     elif (i == n-1):
-        #print "\n/!\ ERROR: Wrong phylogeny (2). Please change the ranks array in featuresVector.py."
-        #raise ValueError
+        print "\n/!\ ERROR: Wrong phylogeny (2). Please change the ranks array in featuresVector.py."
+        raise ValueError
         return ranks[i]
     else:
         return ranks[i+1]
@@ -119,9 +119,3 @@ def featuresCreate(sampleInfoList,infoList,filenames,fastaFileName):
     nodesList = getNodesList(idSequences,phyloSequences)
     matchingNodes = getMatchingNodes(allMatches,nodesList,idSequences)
     return featuresVectorList,matchingNodes,nodesList
-
-def test():
-    from parsingInfo import parseInfo
-    sampleInfoList,infoList = parseInfo("Info")
-    featuresVectorList,matchingNodes,nodesList = featuresCreate(sampleInfoList,infoList,["test"],"test")
-    return featuresVectorList[:3],matchingSequences[:3]
