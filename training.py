@@ -88,6 +88,7 @@ def computeMean(vList):
     return 1/n*s
 
 #Returns an array @probList such as @probList[i] is the probability of having node @nodesList[i]
+#See report at section about Bayesian average for formula below
 def getPriorProbability(nodesList,trainSubset,dataArray):
     probList = []
     #The number of nodes being both in @nodesList and in the matching lists of samples in the training set
@@ -122,8 +123,14 @@ def getPriorProbability(nodesList,trainSubset,dataArray):
                     numberNodesInTrainSubset += 1
                 i += 1
     for i in range(numberNodes):
-        m = computeMean(nodesPresence[i])
-        probList.append((nodesPositive[i]*m + numberNodesInTrainSubset)/(nodesPositive[i] + numberSamples))
+        M = nodesPositive[i]/numberSstart
+        v = 0
+        for j in range(numberStart):
+            v += (nodesPresence[i][j]-M)*(nodesPresence[i][j]-M)
+        v = np.sqrt(v)
+        c = numberSstart/(2*(v+1))
+        m = C/numberSstart
+        probList.append((c*m+nodesPositive[i])/(c+numberSstart))
     return probList,nodesPresence
 
 #Returns @classes, which is the partition of the whole set of samples according to the values of metadatum
