@@ -1,6 +1,6 @@
 from __future__ import division
 
-from misc import mem,addOne
+from misc import addOne
 from training import trainingPart
 from multiDimList import MultiDimList
 

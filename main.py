@@ -20,6 +20,7 @@ def main():
         print "\nERROR: Maybe the filename",iMatrix,".csv does not exist in \"meta\" folder.\n"
         s.exit(0)
     print "-- End of parsing\n"
+    sampleidlist = None
     result = sb.check_output("ls ./meta/match/testfiles",shell=True)
     if not result:
         print "/!\ Pre-processing files for parsing..."
@@ -30,7 +31,7 @@ def main():
         print "/!\ Pre-processing done."
     print "/!\ Constructing the features vectors..."
     try:
-        featuresVectorList,matchingNodes,nodesList = featuresCreate(samplesInfoList,infoList,sampleIDlist,fastaFileName)
+        featuresVectorList,matchingNodes,nodesList = featuresCreate(samplesInfoList,infoList,sampleidlist or sampleIDList,fastaFileName)
     except ValueError:
         print "/!\ ERROR: Please look at the line above."
         print "/!\ ERROR: If the line above is blank, it may be an uncatched ValueError.\n"
