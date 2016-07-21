@@ -1,4 +1,5 @@
 import sys as s
+import subprocess as sb
 
 from parsingInfo import parseInfo
 from actions import userNodeSelectionAct,randomSubSamplingAct,parseList
@@ -20,13 +21,12 @@ def main():
         print "\nERROR: Maybe the filename",iMatrix,".csv does not exist in \"meta\" folder.\n"
         s.exit(0)
     print "-- End of parsing\n"
-    sampleidlist = None
+    sb.call("ls ./meta/match > sampleidlist",shell=True)
+    sampleidlist = sb.check_output("sed 's/.match//g' sampleidlist | sed 's/testfiles//g' | sed '/^$/d'",shell=True).split()
     result = sb.check_output("ls ./meta/match/testfiles",shell=True)
+    sb.call("rm -f sampleidlist",shell=True)
     if not result:
         print "/!\ Pre-processing files for parsing..."
-        sb.call("ls > sampleidlist",shell=True)
-        sampleidlist = sb.check_output("sed 's/.match//g' sampleidlist | sed 's/testfiles//g' | sed 's/sampleidlist//g' | sed '/^$/d'",shell=True).split()
-        sb.call("rm -f sampleidlist",shell=True)
         process(sampleidlist)
         print "/!\ Pre-processing done."
     print "/!\ Constructing the features vectors..."
