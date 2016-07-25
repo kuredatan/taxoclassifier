@@ -15,7 +15,7 @@ def computeClasses(dataArray,metadata):
     #@valueSets[i] is the set of (known) values of @metadata[i] 
     clustersOneMetadatum,valueSets = [],[]
     for metadatum in metadata:
-        valueSet,classes = partitionSampleByMetadatumValue([metadatum],dataArray[1],dataArray[0])
+        valueSet,classes = partitionSampleByMetadatumValue(metadatum,dataArray[1],dataArray[0])
         if not valueSet:
             print "\n/!\ ERROR: metadatum",metadatum,"having abnormal values."
             raise ValueError
