@@ -21,15 +21,16 @@ def probabilityKnowingClass(nodesList,assignedClasses,dataArray,numberClass,numb
             sampleClassList = assignedClasses.access(currDimList)
             for sample in sampleClassList:
                 indexSample = 0
-                #@dataArray[4] = @matchingNodes
-                while indexSample < numberMatching and not (sample == dataArray[4][indexSample][0]):
+                while indexSample < len(dataArray[0]) and not (sample == dataArray[0][indexSample][0]):
                     indexSample += 1
-                if indexSample == numberMatching:
-                    print "\n/!\ ERROR: This sample",sample,"is not in matchingNodes."
+                if indexSample == len(dataArray[0]):
+                    print "\n/!\ ERROR: This sample",sample,"is not in the list of samples."
                     raise ValueError
+                listofnodesmatched = dataArray[4].get(sample)
                 #@nodesPresence[nod][indexSample] == 1 or 0
                 numberNodeAppearsInClass += nodesPresence[nod][indexSample]
-                numberNodeInClass += len(dataArray[4][indexSample][1])
+                if listofnodesmatched:
+                    numberNodeInClass += len(listofnodesmatched)
             probKnowingClass = probKnowingClass.modify(currDimList + [nod],probList[nod]**numberNodeAppearsInClass + (1 - probList[nod])**(numberNodeInClass - numberNodeAppearsInClass))
             currDimList = addOne(currDimList,assignedClasses.shape)
         nod += 1

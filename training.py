@@ -94,7 +94,7 @@ def getPriorProbability(nodesList,trainSubset,dataArray):
     #The number of nodes being both in @nodesList and in the matching lists of samples in the training set
     numberNodesInTrainSubset = 0
     numberNodes = len(nodesList)
-    numberSamples = len(trainSubset)
+    numberSstart = len(trainSubset)
     #matchingNodes = @dataArray[4] is a dictionary of (key=name of sample,value=list of nodes matching in sample) pairs
     n = len(dataArray[4])
     #@nodesPresence is a list such as @nodesPresence[i][j] = 1 if node nodesList[i] matches in sample matchingNodes[j][0]
@@ -103,33 +103,23 @@ def getPriorProbability(nodesList,trainSubset,dataArray):
     #@nodesPositive is a list such as @nodesPositive[i] is the number of samples in the training subset containing node @nodesList[i]
     nodesPositive = [0]*numberNodes
     for sample in trainSubset:
-        j = 0
-        while j < n and not (sample == dataArray[4][j][0]):
-            if not (len(dataArray[4][j]) == 2):
-                print "\n/!\ ERROR: Pair length error:",len(pair),"."
-                raise ValueError
-            j += 1
-        if (j == n):
-            print "\n/!\ ERROR: Sample",sample,"not in matchingNodes."
-            raise ValueError
-        else:
-            nodesSampleList = dataArray[4][j][1]
-            i = 0
-            for node in nodesList:
-                nodesPresence[i][j] = int((node in nodesSampleList))
-                #if @nodesPresence[i][j] == 1
-                if nodesPresence[i][j]:
-                    nodesPositive[i] += 1
-                    numberNodesInTrainSubset += 1
-                i += 1
+        nodesSampleList = dataArray[4].get(sample)
+        i = 0
+        for node in nodesList:
+            nodesPresence[i][j] = int((node in nodesSampleList))
+            #if @nodesPresence[i][j] == 1
+            if nodesPresence[i][j]:
+                nodesPositive[i] += 1
+                numberNodesInTrainSubset += 1
+            i += 1
     for i in range(numberNodes):
         M = nodesPositive[i]/numberSstart
         v = 0
-        for j in range(numberStart):
+        for j in range(numberSstart):
             v += (nodesPresence[i][j]-M)*(nodesPresence[i][j]-M)
         v = np.sqrt(v)
         c = numberSstart/(2*(v+1))
-        m = C/numberSstart
+        m = c/numberSstart
         probList.append((c*m+nodesPositive[i])/(c+numberSstart))
     return probList,nodesPresence
 

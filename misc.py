@@ -142,4 +142,6 @@ def partitionSampleByMetadatumValue(metadatum,infoList,samplesInfoList):
         currValue = sample[i]
         #Adding this value to the set
         valueSet.append(int(currValue))
+    #The previous procedure adds twice the last value
+    valueSet.pop()
     return valueSet,valueSampleMetadatum
